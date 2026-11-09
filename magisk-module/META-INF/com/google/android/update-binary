@@ -1,0 +1,36 @@
+#!/sbin/sh
+#
+# Magisk 模块通用安装入口（仅在第三方 Recovery 卡刷时用到；
+# 通过 Magisk / KernelSU 应用内「从本地安装」时，管理器会忽略本文件）
+
+umask 022
+
+ui_print() { echo "$1"; }
+
+require_new_magisk() {
+  ui_print "*******************************"
+  ui_print " Please install Magisk v20.4+! "
+  ui_print "*******************************"
+  exit 1
+}
+
+OUTFD=$2
+ZIPFILE=$3
+
+mount /data 2>/dev/null
+
+UTIL=""
+for f in /data/adb/magisk/util_functions.sh \
+         /data/adb/ksu/lib/util_functions.sh \
+         /data/adb/ap/lib/util_functions.sh; do
+  if [ -f "$f" ]; then UTIL="$f"; break; fi
+done
+
+[ -n "$UTIL" ] || require_new_magisk
+. "$UTIL"
+
+[ -z "$MAGISK_VER_CODE" ] || [ "$MAGISK_VER_CODE" -ge 20400 ] || require_new_magisk
+
+install_module
+
+exit 0

@@ -1,0 +1,18 @@
+# 统一换行符：shell 脚本必须是 LF，否则在 Android 上无法执行
+* text=auto
+
+*.sh        text eol=lf
+*.prop      text eol=lf
+*.py        text eol=lf
+*.md        text eol=lf
+*.gitignore text eol=lf
+*.gitattributes text eol=lf
+
+# 无扩展名的脚本
+update-binary   text eol=lf
+updater-script  text eol=lf
+
+# 二进制
+*.zip   binary
+*.png   binary
+*.jpg   binary

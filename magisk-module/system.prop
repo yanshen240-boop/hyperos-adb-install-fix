@@ -1,0 +1,3 @@
+persist.security.adbinstall=1
+persist.security.adbinput=1
+persist.fastboot.enable=1
