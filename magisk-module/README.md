@@ -96,6 +96,16 @@ su -c "restorecon $XML"
 
 建议：装完需要的包后，把本模块停用，或手动把 `permcenter_install_intercept_enabled` 改回 `true`。
 
+## 致谢
+
+| 来源 | 作者 / 提交者 | 沿用了什么 |
+|---|---|---|
+| [xiaomi_usb_security_bypass](https://github.com/CHERWING/xiaomi_usb_security_bypass) | [@CHERWING](https://github.com/CHERWING) | 本模块的起点：属性清单、`service.sh` 的三级降级写法、模块结构 |
+| [enable-miui-adb](https://github.com/Ylarod/enable-miui-adb) | [@Ylarod](https://github.com/Ylarod) | 两个手机管家配置键，及保留 inode 的原地重写方式 |
+| [使用 root 跳过小米 USB 安装应用确认](https://bl.ocks.org/the-eric-kwok/19b378d5ff0b02271a8307b144a4db35) | the-eric-kwok | `permcenter_install_intercept_enabled` 的判定链路分析 |
+| [不登陆小米账号启用 MIUI 的 ADB 调试(安全设置)](https://blog.remiki.ren/archives/5/) | remiki | `persist.security.adbinput` 与「USB 调试(安全设置)」的对应关系 |
+| [HyperCeiler](https://github.com/ReChronoRain/HyperCeiler) | [@ReChronoRain](https://github.com/ReChronoRain) 及贡献者 | 手机管家安装拦截逻辑的逆向分析 |
+
 ## License
 
 MIT

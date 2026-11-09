@@ -4,6 +4,8 @@
 
 适用于 **Magisk（含 Magisk Alpha）/ KernelSU / APatch**，需已解锁 Bootloader 并有 root。
 
+> 本项目基于 [@CHERWING](https://github.com/CHERWING) 的 [xiaomi_usb_security_bypass](https://github.com/CHERWING/xiaomi_usb_security_bypass) 继续开发，补齐了 HyperOS 上的第二道校验。原始作者与相关分析文章的出处见[致谢](#致谢)。
+
 ## 为什么需要它
 
 小米把「USB 调试」拆成了三个互相独立的开关，每个都要求登录小米账号并插入 SIM 卡：
@@ -114,6 +116,20 @@ adb install app.apk
 `permcenter_install_intercept_enabled=false` 关掉的是手机管家对**所有安装**的拦截，不只 adb。`persist.security.adbinput=1` 则意味着任何拿到数据线的人都能模拟点击。
 
 用完建议停用模块，或手动把该键改回 `true`。
+
+## 致谢
+
+本项目的思路和代码基础来自以下作者与文章，在此明确标注出处：
+
+| 来源 | 作者 / 提交者 | 沿用了什么 |
+|---|---|---|
+| [xiaomi_usb_security_bypass](https://github.com/CHERWING/xiaomi_usb_security_bypass) | [@CHERWING](https://github.com/CHERWING)<br>（唯一提交，2026-09-08） | **本项目的起点。** `system.prop` 的属性清单、`service.sh` 里 `setprop → resetprop → /product/bin/resetprop` 的三级降级写法、`module.prop` 的模块结构和 id 命名风格，均沿自此项目 |
+| [enable-miui-adb](https://github.com/Ylarod/enable-miui-adb) | [@Ylarod](https://github.com/Ylarod)<br>（14 次提交） | 指出 `remote_provider_preferences.xml` 中 `security_adb_install_enable` 与 `permcenter_install_intercept_enabled` 两个键；以及「原地重写以保留 inode、属主和 SELinux 上下文」的处理方式 |
+| [使用 root 跳过小米 USB 安装应用确认](https://bl.ocks.org/the-eric-kwok/19b378d5ff0b02271a8307b144a4db35) | the-eric-kwok | 最早分析出 `AdbInstallActivity` 读取 `permcenter_install_intercept_enabled` 作为判定依据 |
+| [不登陆小米账号启用 MIUI 的 ADB 调试(安全设置)](https://blog.remiki.ren/archives/5/) | remiki | 「USB 调试(安全设置)」开关与 `persist.security.adbinput` 的对应关系 |
+| [HyperCeiler](https://github.com/ReChronoRain/HyperCeiler) | [@ReChronoRain](https://github.com/ReChronoRain) 及贡献者 | 关于手机管家 `AdbInstallActivity` 拦截逻辑的逆向分析，用于确认校验位置 |
+
+本仓库相对上述来源的增量：HyperOS 4 实机验证；区分 `AdbInstallVerifyActivity`（开关验证）与 `AdbInstallActivity`（安装拦截）两条独立链路；Magisk v31 安装器权限位变更的适配；CE 存储加密下的开机时序处理；以及 `.gitattributes` 对 LF 的强制约束。
 
 ## License
 
